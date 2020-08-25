@@ -13,9 +13,6 @@ from transformers import TFAutoModel, AutoTokenizer
 from tqdm.notebook import tqdm
 from tokenizers import Tokenizer, models, pre_tokenizers, decoders, processors
 def fast_encode(texts, tokenizer, chunk_size=256, maxlen=512):
-    """
-    https://www.kaggle.com/xhlulu/jigsaw-tpu-distilbert-with-huggingface-and-keras
-    """
     tokenizer.enable_truncation(max_length=maxlen)
     tokenizer.enable_padding(max_length=maxlen)
     all_ids = []
@@ -38,9 +35,6 @@ def regular_encode(texts, tokenizer, maxlen=512):
     return np.array(enc_di['input_ids'])
 
 def build_model(transformer, max_len=512):
-    """
-    https://www.kaggle.com/xhlulu/jigsaw-tpu-distilbert-with-huggingface-and-keras
-    """
     input_word_ids = Input(shape=(max_len,), dtype=tf.int32, name="input_word_ids")
     sequence_output = transformer(input_word_ids)[0]
     cls_token = sequence_output[:, 0, :]
